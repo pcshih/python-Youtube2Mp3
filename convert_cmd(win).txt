@@ -1,0 +1,1 @@
+pyinstaller --add-binary "ffmpeg.exe;." --add-binary "ffprobe.exe;." -F -w --onefile window.py
