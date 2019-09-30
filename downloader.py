@@ -1,6 +1,8 @@
 import youtube_dl
 import getpass
 
+
+# https://github.com/ytdl-org/youtube-dl/blob/master/README.md#readme
 ydl_opts = {
     'format': 'bestaudio/best',
     'postprocessors': [{
@@ -9,6 +11,7 @@ ydl_opts = {
         'preferredquality': '192',
     }],
     'outtmpl':'C:\\Users\\' + getpass.getuser() + '\\Downloads\\' + '%(title)s.%(ext)s',
+    'ffmpeg_location': '.',  # ffmpeg.exe and ffprobe.exe must put in same dir as window.exe
 }
 
 
