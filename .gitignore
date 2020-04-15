@@ -1,5 +1,3 @@
-/build
-/__pycache__
-/dist
-window.spec
-dist.zip
+__pycache__
+
+output
