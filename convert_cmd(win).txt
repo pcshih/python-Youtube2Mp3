@@ -1,9 +1,0 @@
-https://zwindr.blogspot.com/2016/01/python-pyinstaller.html
-
-pyinstaller --add-binary "ffmpeg.exe;." --add-binary "ffprobe.exe;." -F -w --onefile window.py
-
-pyinstaller --noconsole --onefile window.py
-
-
-
-test -> https://www.youtube.com/watch?v=HK7SPnGSxLM
