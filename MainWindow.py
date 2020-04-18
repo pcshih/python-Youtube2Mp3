@@ -56,8 +56,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 video = YouTube(url_text)
                 video_name = sanitize_filename(video.title)
                 if video_name=='Youtube':
-                    self.convert()
-                    return
+                    raise NotImplementedError
                 self.mp4_file_path = os.path.join(self.save_dir, f'{video_name}.mp4')
                 video.streams.filter(progressive=True, file_extension='mp4').first().download(output_path=self.save_dir, filename=video_name)
                 mp3_file_path = os.path.join(self.save_dir, f'{video_name}.mp3')

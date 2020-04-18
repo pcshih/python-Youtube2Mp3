@@ -1,5 +1,7 @@
 # python-Youtube2Mp3
-convert youtube to mp3
+
+win7 need to install .NET framework
 
 
-## cannot handle korean words
+
+
