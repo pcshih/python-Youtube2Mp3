@@ -4,6 +4,7 @@ import sys
 from PyQt5 import QtWidgets, QtGui, QtCore
 from pytube import Playlist,YouTube
 import ffmpeg
+from pathvalidate import sanitize_filename  # http://pypi.org/project/pathvalidate/
 
 from Ui_MainWindow import Ui_MainWindow
 
@@ -33,6 +34,9 @@ class MainWindow(QtWidgets.QMainWindow):
         # status label
         self.ui.statusLabel.setText('')
 
+        # mp4 filepath
+        self.mp4_file_path = ''
+
     # for packaging one file on pyinstaller
     def resource_path(self, relative_path):
         """ Get absolute path to resource, works for dev and for PyInstaller """
@@ -50,21 +54,22 @@ class MainWindow(QtWidgets.QMainWindow):
             QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
             try:
                 video = YouTube(url_text)
-                video_name = video.title
+                video_name = sanitize_filename(video.title)
                 if video_name=='Youtube':
                     self.convert()
-                mp4_file_path = os.path.join(self.save_dir, f'{video_name}.mp4')
+                    return
+                self.mp4_file_path = os.path.join(self.save_dir, f'{video_name}.mp4')
                 video.streams.filter(progressive=True, file_extension='mp4').first().download(output_path=self.save_dir, filename=video_name)
                 mp3_file_path = os.path.join(self.save_dir, f'{video_name}.mp3')
-                stream = ffmpeg.input(mp4_file_path)
+                stream = ffmpeg.input(self.mp4_file_path)
                 stream = ffmpeg.output(stream, mp3_file_path)
                 ffmpeg.run(stream, overwrite_output=True)
-                os.remove(mp4_file_path)
             except: # fail to convert
                 self.ui.statusLabel.setText('轉換失敗，請重試一次')
             else:
                 self.ui.statusLabel.setText('轉換成功')
-            
+        
+            if os.path.exists(self.mp4_file_path):  os.remove(self.mp4_file_path)
             QtWidgets.QApplication.restoreOverrideCursor()
             self.ui.urlEdit.setText('')
 
