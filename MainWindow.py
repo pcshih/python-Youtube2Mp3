@@ -49,7 +49,7 @@ class MainWindow(QtWidgets.QMainWindow):
         return os.path.join(base_path, relative_path)
 
     def convert(self):
-        url_text = self.ui.urlEdit.text()
+        url_text = self.ui.urlEdit.text()   # https://www.youtube.com/watch?v=biSB9_Z3VUw
         if url_text is not '':
             QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
             try:
@@ -63,8 +63,9 @@ class MainWindow(QtWidgets.QMainWindow):
                 stream = ffmpeg.input(self.mp4_file_path)
                 stream = ffmpeg.output(stream, mp3_file_path)
                 ffmpeg.run(stream, overwrite_output=True)
-            except: # fail to convert
-                self.ui.statusLabel.setText('轉換失敗，請重試一次')
+            except Exception as e: # fail to convert
+                print(e)
+                self.ui.statusLabel.setText('轉換失敗，請重試一次')#self.ui.statusLabel.setText('轉換失敗，請重試一次')
             else:
                 self.ui.statusLabel.setText('轉換成功')
         
